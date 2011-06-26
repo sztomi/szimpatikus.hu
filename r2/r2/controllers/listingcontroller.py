@@ -757,7 +757,7 @@ class RedditsController(ListingController):
                 reddits._filter(Subreddit.c.lang == c.content_langs)
             if not c.over18:
                 reddits._filter(Subreddit.c.over_18 == False)
-
+        reddits._filter(Subreddit.c.author_id != -1)
         return reddits
     def GET_listing(self, where, **env):
         self.where = where
