@@ -604,15 +604,15 @@ class ApiController(RedditController):
 
     @validatedForm(VUser(),
                    VModhash(),
-                   areyousure1 = VOneOf('areyousure1', ('yes', 'no')),
-                   areyousure2 = VOneOf('areyousure2', ('yes', 'no')),
-                   areyousure3 = VOneOf('areyousure3', ('yes', 'no')))
+                   areyousure1 = VOneOf('areyousure1', (_('yes'), _('no'))),
+                   areyousure2 = VOneOf('areyousure2', (_('yes'), _('no'))),
+                   areyousure3 = VOneOf('areyousure3', (_('yes'), _('no'))))
     def POST_delete_user(self, form, jquery,
                          areyousure1, areyousure2, areyousure3):
         """
         /prefs/delete.  Make sure there are three yes's.
         """
-        if areyousure1 == areyousure2 == areyousure3 == 'yes':
+        if areyousure1 == areyousure2 == areyousure3 == _('yes'):
             c.user.delete()
             form.redirect('/?deleted=true')
         else:

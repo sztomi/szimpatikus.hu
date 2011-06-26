@@ -27,19 +27,12 @@
 
 <% name = "r/%s/" % c.site.name if not c.default_sr else '' %>
 
-<iframe id="ad-frame" frameborder="0" scrolling="no" name="ad-frame"
-        src="${g.ad_domain}/ads/${name}">
-</iframe>
+    <!--div class="sidebox facebook">
+	<iframe src="http://www.facebook.com/plugins/likebox.php?href=http%3A%2F%2Fwww.facebook.com%2Fszimpatikus&amp;width=300&amp;colorscheme=light&amp;connections=10&amp;stream=false&amp;header=false&amp;height=290" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:300px; height:290px;" allowTransparency="true"></iframe>
+    </div-->
 
-<script type="text/javascript">
-    <% 
-      tracker_url = AdframeInfo.gen_url(fullname = "adblock", ip = request.ip)
-     %>
-    $(function() {
-      var ad = $("#ad-frame");
-      if(ad.height() == 0 || ad.width() == 0) {
-        $(".footer").append("<img alt='' src='${unsafe(tracker_url)}&random=" +
-                                    Math.random()*10000000000000000 + "'/>");
-      }
-    });
-</script>
+<!--div class="spacer">
+    <div class="sidebox twitter">
+	<iframe src='http://theyfollow.me/tfmapi.asp?user=szimpatikus&column=5&bgcolor=ffffff&thumbsize=48&profile=true&followtext=twitter follow&followers=25&w=260&showmy=followers' height='308' width='260' scrolling=no frameborder=0>
+    </div>
+</div-->

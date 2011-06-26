@@ -460,6 +460,15 @@ def get_all_comments():
     q = Comment._query(sort = desc('_date'))
     return make_results(q)
 
+def get_sr_comments(sr):
+    return _get_sr_comments(sr._id)
+
+def _get_sr_comments(sr_id):
+    """the subreddit /r/foo/comments page"""
+    q = Comment._query(Comment.c.sr_id == sr_id,
+                       sort = desc('_date'))
+    return make_results(q)
+
 def get_comments(user, sort, time):
     return user_query(Comment, user, sort, time)
 

@@ -30,6 +30,7 @@ from listingcontroller import ByIDController as ByidController
 from listingcontroller import RandomrisingController
 from listingcontroller import UserController
 from listingcontroller import CommentsController
+from listingcontroller import FrissController
 
 from listingcontroller import MyredditsController
 

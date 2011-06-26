@@ -113,6 +113,20 @@
   <script src="${static('jquery.reddit.js')}"  type="text/javascript"></script>
   <script src="${static('jquery.lazyload.js')}"  type="text/javascript"></script>
   <script src="${static('reddit.js')}" type="text/javascript"></script>
+
+<div id="fb-root"></div>
+<script>
+  window.fbAsyncInit = function() {
+    FB.init({appId: '208365962514227', status: true, cookie: true, xfbml: true});
+  };
+  (function() {
+   var e = document.createElement('script'); e.async = true;
+   e.src = document.location.protocol +
+     '//connect.facebook.net/hu_HU/all.js';
+   document.getElementById('fb-root').appendChild(e);
+  }());
+</script>
+                                           
 </%def>
 
 <%def name="javascript_run()">
@@ -134,6 +148,18 @@
       ##<div class="clearleft"><!--IE6sux--></div>
       <div class="content">
         ${thing.content()}
+        <br/><br/>
+	<div class="commentarea"><h1>${_("follow us")}</h1></div>
+        <div style="padding:10px;">
+    	    <div style="float:left;">
+		<iframe src="http://www.facebook.com/plugins/like.php?href=http%3A%2F%2Ffacebook.com%2Fszimpatikus&amp;send=true&amp;layout=standard&amp;width=600&amp;show_faces=true&amp;action=like&amp;colorscheme=light&amp;font&amp;height=80" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:600px; height:80px;" allowTransparency="true"></iframe>
+	    </div>
+	    <div style="float:left;padding-left:50px;">
+		<a title="twitter" target="_blank" href="http://www.twitter.com/szimpatikus"><img class="fade" style="opacity: 0.8;" src="http://imgur.com/NuQI2.png"/></a>
+    	        <a title="rss" target="_blank" href="http://feeds.feedburner.com/szimpatikus"><img class="fade" style="opacity: 0.8;" src="http://imgur.com/ZdDJ0.png"/></a>
+		<a title="email" target="_blank" href="http://feedburner.google.com/fb/a/mailverify?uri=szimpatikus&amp;loc=hu_HU"><img class="fade" style="opacity: 0.8;" src="http://imgur.com/tk5TT.png"/></a>
+	    </div>
+	</div>
       </div>
     %endif
     
@@ -205,5 +231,3 @@
 <%def name="sidebar(content=None)">
   ${content}
 </%def>
-
-

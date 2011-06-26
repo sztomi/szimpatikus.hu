@@ -288,7 +288,8 @@ class Reddit(Templated):
                             NamedButton('new'), 
                             NamedButton('controversial'),
                             NamedButton('top'),
-                            NamedButton('saved', False)
+                            NamedButton('saved', False),
+                            NamedButton('friss')
                             ]
 
         more_buttons = []
@@ -400,6 +401,16 @@ class RedditFooter(CachedTemplate):
                          OffsiteButton('Concierge.com',
                                        "http://www.concierge.com")],
                         title = _('sisters'), type = 'flat_vert',
+                        separator = '')
+                    ]
+        self.nav = [NavMenu([OffsiteButton(_('tarhely, domain'), dest = 'http://gyumolcstarhely.hu/'),
+                         ],
+                        title = _('thanks'), type = 'flat_vert',
+                        separator = ''),
+		    NavMenu([OffsiteButton(_('about us'), dest = 'http://wiki.szimpatikus.hu/'),
+                         OffsiteButton(_('contact'), dest = 'http://szimpatikus.hu/r/visszajelzes/'),
+                         ],
+                        title = _('impressum'), type = 'flat_vert',
                         separator = '')
                     ]
         CachedTemplate.__init__(self)
@@ -1118,7 +1129,8 @@ class SubredditTopBar(Templated):
 
         p_srs = Subreddit.default_subreddits(ids = False,
                                              limit = Subreddit.sr_limit)
-        self.pop_reddits = [ sr for sr in p_srs if sr.name not in g.automatic_reddits ]
+#        self.pop_reddits = [ sr for sr in p_srs if sr.name not in g.automatic_reddits ]
+        self.pop_reddits = [ sr for sr in p_srs ]
 
 
 # This doesn't actually work.
@@ -1143,7 +1155,7 @@ class SubredditTopBar(Templated):
                         sorted(self.my_reddits,
                                key = lambda sr: sr._downs,
                                reverse=True)
-                        if sr.name not in g.automatic_reddits
+#                        if sr.name not in g.automatic_reddits
                         ]
         return NavMenu(srs,
                        type='flatlist', separator = '-',

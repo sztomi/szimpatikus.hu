@@ -130,7 +130,7 @@ $(function() {
             }
             $(".score:visible").fadeOut(function() {
                     $(".score").html('<a class="submit" target="_top" href="' +
-                                     submit + '">submit</a>');
+                                     submit + '">szimpatikus</a>');
                     $(this).fadeIn().css("display", "");});
             $(".bling a, a.bling").attr("href", submit);
             $(".arrow").each(function() {
