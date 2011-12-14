@@ -49,6 +49,7 @@ menu_selected=StringHandler(hot          = _("what's hot"),
                             saved        = _("saved"),
                             recommended  = _("recommended"),
                             promote      = _('promote'),
+                            friss        = _("minden"),
                             )
 
 # translation strings for every menu on the site
@@ -66,7 +67,8 @@ menu =   MenuHandler(hot          = _('hot'),
                      recommended  = _('recommended'),
                      rising       = _('rising'), 
                      admin        = _('admin'), 
-                                 
+                     friss        = _('minden'),
+
                      # time sort words
                      hour         = _('this hour'),
                      day          = _('today'),
@@ -401,7 +403,7 @@ class SortMenu(SimpleGetMenu):
     """The default sort menu."""
     get_param = 'sort'
     default   = 'hot'
-    options   = ('hot', 'new', 'top', 'old', 'controversial')
+    options   = ('hot', 'new', 'top', 'old', 'controversial', 'friss')
 
     def __init__(self, **kw):
         kw['title'] = _("sorted by")
@@ -421,11 +423,14 @@ class SortMenu(SimpleGetMenu):
             return operators.desc('_controversy')
         elif sort == 'confidence':
             return operators.desc('_confidence')
+        elif sort == 'friss':
+            return operators.desc('_date')
+
 
 class CommentSortMenu(SortMenu):
     """Sort menu for comments pages"""
     default   = 'confidence'
-    options   = ('hot', 'new', 'controversial', 'top', 'old', 'confidence')
+    options   = ('hot', 'new', 'controversial', 'top', 'old', 'confidence', 'friss')
 
 class SearchSortMenu(SortMenu):
     """Sort menu for search pages."""

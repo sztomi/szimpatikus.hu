@@ -21,6 +21,7 @@
 ################################################################################
 
 <%!
+   from pylons import request
    from r2.lib.template_helpers import get_domain
    from r2.lib.pages.things import LinkButtons
    from r2.lib.pages import WrappedUser
@@ -39,9 +40,17 @@
 </%def>
 
 <%def name="make_link(name, css_class)">
+
+  <%
+    if request.path and request.path.find("comments") > 0:
+	auto = 1
+    else:
+	auto = 0
+  %>
+
   <a class="${css_class} ${ c.user_is_loggedin and 'loggedin' or ''} ${thing.clicked and 'click' or ''}"
      %if not (getattr(thing, "trial_mode", None) and thing.is_self):
-       href="${thing.href_url}"
+        href="${"http://szimpatikus.hu/l/" + thing._id36 if not auto and thing.link_child else thing.href_url}"
      %endif
      %if thing.nofollow:
        rel="nofollow"
@@ -74,6 +83,14 @@
  </%def>
 
 <%def name="entry()">
+
+  <%
+    if request.path and request.path.find("comments") > 0:
+	auto = 1
+    else:
+	auto = 0
+  %>
+
   <p class="title">
     <%call expr="make_link('title', 'title')">
       ${thing.title}
@@ -96,15 +113,19 @@
     %endif
   </p>
 
+
   ##the expando button
   %if thing.link_child and not thing.link_child.expand:
-    <div class="expando-button collapsed
+    <div class="expando-button ${"expanded" if auto else "collapsed"}
                 ${thing.link_child.css_style}"
-         onclick="expando_child(this)"></div>
+         onclick="${"unexpando_child(this)" if auto else "expando_child(this)"}"></div>
   %endif
 
   <p class="tagline">
-    ${self.tagline()}
+    ${self.tagline()} 
+  %if auto:
+    permalink:&nbsp;<a href="http://szimpatikus.hu/l/${thing._id36}">http://szimpatikus.hu/l/${thing._id36}</a>
+  %endif
   </p>
 
   <% 
@@ -120,12 +141,33 @@
     ${bottom_buttons()}
   %endif
 
-  <div class="expando" ${"style='display: none'" if not expand else ""}>
+  %if auto:
+    <div class="expando">
+  %else:
+    <div class="expando" ${"style='display: none'" if not expand else ""}>
+  %endif
+
     %if expand:
       ${child_content}
-    %else:
+    %elif not expand and auto:
+      ${child_content}
+    %elif not expand and not auto:
       <span class="error">loading...</span>
     %endif
+
+  %if auto:
+    <div style="padding-left:0px;padding-top:20px;">
+	<script src="http://connect.facebook.net/hu_HU/all.js#xfbml=1"></script><fb:like href="" show_faces="true" width="450" font=""></fb:like>
+    </div>
+    <script type="text/javascript">
+    FB.Event.subscribe('edge.create', function(href) {
+	session = FB.getSession();
+	uid = session['uid'];
+	console.log(uid);
+    });
+    </script>
+  %endif
+
   </div>
 
   ##if we are on a permalink page, we'll render the buttons below

@@ -20,21 +20,25 @@
 ## CondeNet, Inc. All Rights Reserved.
 ################################################################################
 <%!
-
+   from pylons import request
    from r2.lib.template_helpers import static
    from r2.models import Link, Comment, Subreddit
 %>
 <%namespace file="utils.html" import="js_preamble"/>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="${c.lang}" 
-      xml:lang="${c.lang}" ${c.lang_rtl and unsafe('dir="rtl"') or ''}>
+      xml:lang="${c.lang}" ${c.lang_rtl and unsafe('dir="rtl"') or ''}
+      xmlns:og="http://ogp.me/ns#">
   <head>
     <title>${self.Title()}</title>
     
     <meta name="keywords" content="${self.keywords()}" />
     <meta name="title" content="${self.Title()}" />
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="google-site-verification" content="jIQR2gleQ8MloKDVDL3oYienktVzUrNqBoBQAjsMEW8" />
     ${self.robots()}
+
+    ${self.ogimage()}    
     
     ##these are globals, so they should be run first
     ##things that need are referenced by the reddit, the buttons, and
@@ -50,11 +54,32 @@
     <script type="text/javascript">
       ${self.javascript_run()}
     </script>
+
     <style type="text/css">
       ${unsafe(_("/* Custom css: use this block to insert special translation-dependent css in the page header */"))}
     </style>
+    <!--link type="text/css" href="/static/css/reddit_userstyle.css" rel="stylesheet"-->
+    % if request.get.get('sandbox_id'):
+    <link type="text/css" href="http://szimpatikus-dev.szimpatikus.hu/css-public/${request.get.get('sandbox_id')}_style.css" rel="stylesheet">
+    % else:
+    <link type="text/css" href="http://szimpatikus-dev.szimpatikus.hu/css-public/style.css" rel="stylesheet">
+    % endif
 
     ${self.head()}
+
+<!-- Google analytics tracking start -->
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+try{
+var pageTracker = _gat._getTracker("UA-15398900-1");
+pageTracker._trackPageview();
+} catch(err) {}
+</script>
+<!-- Google analytics tracking end -->
+
   </head>
   
   ${self.bodyHTML()}
@@ -76,7 +101,7 @@ ${title}
 </%def>
 
 <%def name="keywords()">
-reddit, reddit.com, vote, comment, submit
+szimpatikus.hu, hirek, linkek, szavazas
 </%def>
 
 <%def name="robots()">
@@ -96,4 +121,17 @@ reddit, reddit.com, vote, comment, submit
 </%def>
 
 <%def name="javascript()">
+</%def>
+
+<%def name="ogimage()">
+<%
+	og = request.path.split("/")
+	if len(og) > 2:
+	    ogimage = "t5_" + og[2] + ".png"
+	else:
+	    ogimage = ""
+%>
+    
+<meta property="og:image" content="http://thumbs.szimpatikus.hu/${ogimage}" />
+
 </%def>

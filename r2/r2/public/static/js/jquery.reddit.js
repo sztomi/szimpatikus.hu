@@ -36,7 +36,7 @@ $.redirect = function(dest) {
 
 $.fn.redirect = function(dest) {
     /* for forms which are "posting" by ajax leading to a redirect */
-    $(this).filter("form").find(".status").show().html("redirecting...");
+    $(this).filter("form").find(".status").show().html("dolgozom...");
     var target = $(this).attr('target');
     if(target == "_top") {
       var w = window;

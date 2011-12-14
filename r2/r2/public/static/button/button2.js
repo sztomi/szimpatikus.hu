@@ -1,5 +1,5 @@
 (function() {
-var write_string="<iframe src=\"http://www.reddit.com/static/button/button2.html?width=51&url=";
+var write_string="<iframe src=\"http://www.szimpatikus.hu/static/button/button2.html?width=51&url=";
   if (window.reddit_url)  { 
       write_string += encodeURIComponent(reddit_url); 
   }

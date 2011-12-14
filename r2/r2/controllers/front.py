@@ -81,6 +81,17 @@ class FrontController(RedditController):
             # redirect should be smarter and handle extensions, etc.
             return self.redirect(new_url, code=301)
 
+        if type == 'short':
+    	    sr = Subreddit._byID(article.sr_id, True)
+            new_url = "/r/%s/%s/%s/%s/" % \
+                      (sr.name,dest, article._id36, 
+                       quote_plus(title_to_url(article.title).encode('utf-8')))
+
+            new_url = new_url + query_string(request.get)
+
+            # redirect should be smarter and handle extensions, etc.
+            return self.redirect(new_url, code=301)
+
     def GET_random(self):
         """The Serendipity button"""
         sort = 'new' if rand.choice((True,False)) else 'hot'

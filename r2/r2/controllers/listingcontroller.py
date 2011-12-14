@@ -434,6 +434,31 @@ class RandomrisingController(ListingController):
 
         return links
 
+class FrissController(ListingController):
+    where = 'friss'
+    show_sidebar = False
+    show_nums = False
+   
+    title_text = _('Minden egyben')
+ 
+#    def GET_listing(self, where, **env):
+#        self.where = where
+#        return ListingController.GET_listing(self, **env)   
+       
+    def query(reddits):
+        sr_ids = Subreddit.user_subreddits(c.user)
+        res = queries._get_sr_comments(sr_ids)
+        res1 = c.site.get_links('new', 'all')
+        res1 = queries.make_results(res1)
+        return queries.merge_results(res1,res)
+
+    @validate(VUser())
+    def GET_listing(self,where, **env):
+        self.where = where
+        self.render_params = {'user' : c.user}
+        c.profilepage = True
+        return ListingController.GET_listing(self, **env)
+
 class ByIDController(ListingController):
     title_text = _('API')
     skip = False

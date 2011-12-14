@@ -330,16 +330,21 @@ class Link(Thing, Printable):
                                 item._nsfw.findall(item.title))
             item.nsfw = item.over_18 and user.pref_label_nsfw
 
-            if user.pref_no_profanity and item.over_18 and not c.site.over_18:
-                item.thumbnail = ""
-            elif not show_media:
-                item.thumbnail = ""
-            elif item.has_thumbnail:
+#            if user.pref_no_profanity and item.over_18 and not c.site.over_18:
+#                item.thumbnail = ""
+#            elif not show_media:
+#                item.thumbnail = ""
+#            elif item.has_thumbnail:
+#                item.thumbnail = thumbnail_url(item)
+#            elif item.is_self:
+#                item.thumbnail = g.self_thumb
+#            else:
+#                item.thumbnail = g.default_thumb
+
+            if item.has_thumbnail:
                 item.thumbnail = thumbnail_url(item)
-            elif item.is_self:
-                item.thumbnail = g.self_thumb
-            else:
-                item.thumbnail = g.default_thumb
+	    else:
+        	item.thumbnail = ""
 
             item.score = max(0, item.score)
 

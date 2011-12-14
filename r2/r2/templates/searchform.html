@@ -24,7 +24,7 @@
    from r2.lib.template_helpers import add_sr, static
 %>
 
-<form action="${add_sr('/search')}" id="search">
+<!--form action="${add_sr('/search')}" id="search">
   <input type="text" 
          %if thing.prev_search:
            value="${thing.prev_search}" style="color:black"
@@ -35,4 +35,50 @@
   %for k, v in thing.search_params.iteritems():
     <input type="hidden" name="${k}" value="${v}" />
   %endfor
-</form>
+</form-->
+
+<!-- about doboz start -->
+<!--div class="infobar" style="margin:5px 0px 5px 0px;">
+    <div class="md">
+	<iframe src="http://wiki.szimpatikus.hu/about.php"/ style="width:100%;height:130px;" scrolling="no" frameborder="no"></iframe>
+    </div>
+</div-->
+<!-- about doboz end -->
+
+<br/>
+
+<!-- google kereso start -->
+<div id="cse" style="width: 100%;">Loading</div>
+<script src="http://www.google.com/jsapi" type="text/javascript"></script>
+<script type="text/javascript">
+  google.load('search', '1', {language : 'hu'});
+    google.setOnLoadCallback(function() {
+    var customSearchControl = new google.search.CustomSearchControl('005438550550475821498:cs8rdq7q1sw');
+    customSearchControl.setResultSetSize(google.search.Search.FILTERED_CSE_RESULTSET);
+    customSearchControl.draw('cse');
+  }, true);
+</script>
+<link rel="stylesheet" href="http://www.google.com/cse/style/look/default.css" type="text/css" />
+<style>
+input.gsc-search-button {
+    background-color: #eff6fd;
+    color: #336699;
+    font-weight: bold;
+    font: verdana,arial,helvetica,sans-serif;
+    height: 28px;
+    font-size: 15px;
+    letter-spacing: -1px;
+    padding: 3px;
+    border: #c4dbf1 1px solid;
+}
+input.gsc-input {
+    height: 28px;
+    font: x-small verdana,arial,helvetica,sans-serif;
+    font-size: 150%;
+}
+.cse .gsc-control-cse, .gsc-control-cse {
+    padding: 0%;
+    width: 100%;
+}
+</style>
+<!-- google kereso end -->

@@ -22,17 +22,18 @@
 # CondeNet, Inc. All Rights Reserved.
 ################################################################################
 
-import boto
-from boto.s3.connection import S3Connection
-from boto.s3.key import Key
-from pylons import g
+#import boto
+import os
+#from boto.s3.connection import S3Connection
+#from boto.s3.key import Key
+#from pylons import g
 
-KEY_ID = g.S3KEY_ID
-SECRET_KEY = g.S3SECRET_KEY
+#KEY_ID = g.S3KEY_ID
+#SECRET_KEY = g.S3SECRET_KEY
 
-NEVER = 'Thu, 31 Dec 2037 23:59:59 GMT'
+#NEVER = 'Thu, 31 Dec 2037 23:59:59 GMT'
 
-class S3Exception(Exception): pass
+#class S3Exception(Exception): pass
 
 def send_file(bucketname, filename, content, content_type = 'text/plain', never_expire = False):
     # this function is pretty low-traffic, but if we start using it a
@@ -41,13 +42,17 @@ def send_file(bucketname, filename, content, content_type = 'text/plain', never_
 
     # TODO: add ACL support instead of always using public-read
 
-    connection = S3Connection(KEY_ID, SECRET_KEY)
-    bucket = connection.get_bucket(bucketname)
-    k = bucket.new_key(filename)
+#    connection = S3Connection(KEY_ID, SECRET_KEY)
+#    bucket = connection.get_bucket(bucketname)
+#    k = bucket.new_key(filename)
 
-    headers={'Content-Type': content_type}
-    if never_expire:
-        headers['Expires'] = NEVER
+#    headers={'Content-Type': content_type}
+#    if never_expire:
+#        headers['Expires'] = NEVER
 
-    k.set_contents_from_string(content, policy='public-read',
-                               headers=headers)
+#    k.set_contents_from_string(content, policy='public-read',
+#                               headers=headers)
+    thumb = "/home/szimpatikus/thumbs/" + filename 
+    fout = open(thumb, "wb")
+    fout.write(content)
+    fout.close()
