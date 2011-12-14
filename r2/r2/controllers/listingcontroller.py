@@ -381,10 +381,10 @@ class NewController(ListingController):
         return keep
 
     def query(self):
+        res = None
         if self.sort == 'rising':
-            return get_rising(c.site)
-        else:
-            return c.site.get_links('new', 'all')
+            res = get_rising(c.site)
+        return res or c.site.get_links('new', 'all')
 
     @validate(sort = VMenu('controller', NewMenu))
     def GET_listing(self, sort, **env):

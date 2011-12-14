@@ -23,7 +23,7 @@ def randword():
 
 q = 'log_q'
 
-def run(limit=100, streamfile=None, verbose=False):
+def run(streamfile=None, verbose=False):
     if streamfile:
         stream_fp = open(streamfile, "a")
     else:
@@ -181,30 +181,29 @@ def run(limit=100, streamfile=None, verbose=False):
         limited_append(occurrences, d2)
         g.hardcache.set(occ_key, occurrences, 86400 * 7)
 
-    def myfunc(msgs, chan):
+    def myfunc(msg):
         daystring = datetime.now(g.display_tz).strftime("%Y/%m/%d")
 
-        for msg in msgs:
+        try:
+            d = pickle.loads(msg.body)
+        except TypeError:
+            streamlog ("wtf is %r" % msg.body, True)
+            return
+
+        if not 'type' in d:
+            streamlog ("wtf is %r" % d, True)
+        elif d['type'] == 'exception':
             try:
-                d = pickle.loads(msg.body)
-            except TypeError:
-                streamlog ("wtf is %r" % msg.body, True)
-                continue
+                log_exception(d, daystring)
+            except Exception as e:
+                print "Error in log_exception(): %r" % e
+        elif d['type'] == 'text':
+            try:
+                log_text(d, daystring)
+            except Exception as e:
+                print "Error in log_text(): %r" % e
+        else:
+            streamlog ("wtf is %r" % d['type'], True)
 
-            if not 'type' in d:
-                streamlog ("wtf is %r" % d, True)
-            elif d['type'] == 'exception':
-                try:
-                    log_exception(d, daystring)
-                except Exception as e:
-                    print "Error in log_exception(): %r" % e
-            elif d['type'] == 'text':
-                try:
-                    log_text(d, daystring)
-                except Exception as e:
-                    print "Error in log_text(): %r" % e
-            else:
-                streamlog ("wtf is %r" % d['type'], True)
-
-    amqp.handle_items(q, myfunc, limit=limit, drain=False, verbose=verbose)
+    amqp.consume_items(q, myfunc, verbose=verbose)
 
