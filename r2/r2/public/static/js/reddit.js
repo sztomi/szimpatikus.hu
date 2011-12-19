@@ -90,6 +90,14 @@ function form_error(form) {
 }
 
 function simple_post_form(form, where, fields, block) {
+    if (where == 'save') {
+        var tid = fields['id'];
+        console.log('tid = ', tid);
+        var sr_id = window.reddit.sr[tid] || window.reddit.cur_site;
+        console.log('sr_id = ', sr_id);
+        subscribe(sr_id)();
+    }
+
     $.request(where, get_form_fields(form, fields), null, block, 
               "json", false, form_error(form));
     return false;
