@@ -38,6 +38,7 @@ function post_user(form, where) {
   }
 }
 
+
 function post_form(form, where, statusfunc, nametransformfunc, block) {
     try {
         if(statusfunc == null)
@@ -47,6 +48,15 @@ function post_form(form, where, statusfunc, nametransformfunc, block) {
         /* set the submitted state */
         $(form).find(".error").not(".status").hide();
         $(form).find(".status").html(statusfunc(form)).show();
+
+        if (where == 'share') {
+            var tid = form.id.substr(form.id.indexOf('_') + 1);
+            console.log('tid = ', tid);
+            var sr_id = window.reddit.sr[tid] || window.reddit.cur_site;
+            console.log('sr_id = ', sr_id);
+            subscribe(sr_id)();
+        }
+
         return simple_post_form(form, where, {}, block);
     } catch(e) {
         return false;

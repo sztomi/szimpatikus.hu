@@ -256,6 +256,7 @@ rate_limit = function() {
 
 $.fn.vote = function(vh, callback, event, ui_only) {
     /* for vote to work, $(this) should be the clicked arrow */
+
     if (!reddit.logged) {
         showcover(true, 'vote_' + $(this).thing_id());
     }
@@ -279,9 +280,15 @@ $.fn.vote = function(vh, callback, event, ui_only) {
         if(reddit.logged) {
             things.each(function() {
                     var entry =  $(this).find(".entry:first, .midcol:first");
-                    if(dir > 0)
+                    if(dir > 0) {
                         entry.addClass('likes')
                             .removeClass('dislikes unvoted');
+                        
+                        var tid = $(this).thing_id();
+                        var sr_id = window.reddit.sr[tid] || window.reddit.cur_site;
+
+                        subscribe(sr_id)();
+                    }
                     else if(dir < 0)
                         entry.addClass('dislikes')
                             .removeClass('likes unvoted');
